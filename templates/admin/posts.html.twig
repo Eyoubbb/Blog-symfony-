@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div>
+        <h1>Tous les posts</h1>
+        <a href="/admin/posts/create">Créer un nouveau post</a>
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <a href="/posts/{{ post.slug }}">{{ post.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -2,8 +2,13 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Post;
+use App\Form\CreatePostType;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
@@ -14,8 +19,13 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
      * @author Jérémy
      */
     #[Route('/admin/posts', methods:['get'])]
-    public function posts(): Response{
-        return $this->render('base.html.twig');
+    public function posts(ManagerRegistry $doctrine): Response{
+        $postRepository = $doctrine->getRepository(Post::class);
+        $posts = $postRepository->findBy([], ['createdAt' => 'DESC'], 20, 0);
+
+        return $this->render('admin/posts.html.twig', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -46,8 +56,28 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/posts/create', methods:['get'])]
-    public function postsCreate(): Response{
-        return $this->render('base.html.twig');
+    #[Route('/admin/posts/create', methods:['get', 'post'])]
+    public function postsCreate(Request $request, ManagerRegistry $doctrine): Response{
+        $post = new Post();
+
+        $form = $this->createForm(CreatePostType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slugger = new AsciiSlugger();
+
+            $post = $form->getData();
+            $post->setSlug($slugger->slug($post->getTitle()));
+            $post->setCreatedAt(new \DateTimeImmutable());
+            $post->setUpdatedAt(new \DateTimeImmutable());
+
+            $doctrine->getManager()->persist($post);
+            $doctrine->getManager()->flush();
+            return $this->redirectToRoute('app_admin_adminposts_posts');
+        }
+
+        return $this->render('admin/createpost.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
