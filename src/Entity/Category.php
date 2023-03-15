@@ -18,7 +18,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'categories')]
     private Collection $posts;
 
     #[ORM\Column(length: 7)]
@@ -84,6 +84,6 @@ class Category
 
     public function generateHTMLTag(): string
     {
-        return '<span class="text-xs rounded-xl px-4 py-1 uppercase" style="background-color:'.$this->getColor().'">'.$this->getName().'</span>';
+        return '<span class="text-xs rounded-xl px-4 py-1 uppercase text-white font-semibold" style="background-color:'.$this->getColor().'">'.$this->getName().'</span>';
     }
 }
