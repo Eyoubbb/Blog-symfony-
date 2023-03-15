@@ -14,7 +14,7 @@
         {% endblock %}
     </head>
     <body>
-    {% if app.user %}
+    {% if not app.user %}
     {% include 'navbar/adminnav.html.twig' %}
     {% else %}
     {% include 'navbar/usernav.html.twig' %}

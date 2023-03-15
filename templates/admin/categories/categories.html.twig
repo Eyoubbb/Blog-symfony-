@@ -21,7 +21,7 @@
                 {% for category in categories %}
                     <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
-                            {{category.name}}
+                            {{ category.generateHTMLTag()|raw }}
                         </th>
                         <td class="px-6 py-4">
                             {{ category.posts|length }}
@@ -29,7 +29,7 @@
 
                         <td class="px-6 py-4 text-right">
                             <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
-                            <a href="/admin/posts/{{ post.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
+                            <a href="/admin/categories/{{ category.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}

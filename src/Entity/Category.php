@@ -21,6 +21,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'categories')]
     private Collection $posts;
 
+    #[ORM\Column(length: 7)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -65,5 +68,22 @@ class Category
         $this->posts->removeElement($post);
 
         return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function generateHTMLTag(): string
+    {
+        return '<span class="text-xs rounded-xl px-4 py-1 uppercase" style="background-color:'.$this->getColor().'">'.$this->getName().'</span>';
     }
 }
