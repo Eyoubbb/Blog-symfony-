@@ -65,7 +65,11 @@ class AdminCategoryController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @author Jérémy
      */
     #[Route('/admin/categories/{id}/delete', methods:['get'])]
-    public function categoriesDelete(): Response{
-        return $this->render('base.html.twig');
+    public function categoriesDelete(ManagerRegistry $doctrine, $id): Response{
+        $categoriesRepository = $doctrine->getRepository(Category::class);
+        $category = $categoriesRepository->find($id);
+        $doctrine->getManager()->remove($category);
+        $doctrine->getManager()->flush();
+        return $this->redirectToRoute('app_admin_admincategory_categories');
     }
 }
