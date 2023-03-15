@@ -13,16 +13,10 @@
                         Categories
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Date de création
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Date de modification
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Date de publication
-                    </th>
-                    <th scope="col" class="px-6 py-3 max-w-10">
-                        <span class="sr-only">Edit</span>
                     </th>
                 </tr>
                 </thead>
@@ -38,9 +32,6 @@
                             {% endfor %}
                         </td>
                         <td class="px-6 py-4">
-                            {{ post.createdAt|date('d/m/Y \\à G\\hi') }}
-                        </td>
-                        <td class="px-6 py-4">
                             {{ post.updatedAt|date('d/m/Y \\à G\\hi') }}
                         </td>
                         <td class="px-6 py-4">
@@ -50,19 +41,10 @@
                                 <p>Non publié</p>
                             {% endif %}
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Y aller</a>
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
-                            {% if post.publishedAt is null %}
-                                <a href="/admin/posts/{{ post.id }}/publish" class="font-medium text-blue-500 hover:underline">Publier</a>
-                            {% endif %}
-                            <a href="/admin/posts/{{ post.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
-                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        <a href="/admin/posts/create">Créer un nouveau post</a>
     </div>
 {% endblock %}

@@ -46,8 +46,12 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
      * @author Jérémy
      */
     #[Route('/admin/posts/{id}/delete', methods:['get'])]
-    public function postsDelete(): Response{
-        return $this->render('base.html.twig');
+    public function postsDelete(ManagerRegistry $doctrine, $id): Response{
+        $postRepository = $doctrine->getRepository(Post::class);;
+        $post = $postRepository->find($id);
+        $doctrine->getManager()->remove($post);
+        $doctrine->getManager()->flush();
+        return $this->redirectToRoute('app_admin_adminposts_posts');
     }
 
     /**
@@ -70,6 +74,7 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
             $post->setSlug($slugger->slug($post->getTitle()));
             $post->setCreatedAt(new \DateTimeImmutable());
             $post->setUpdatedAt(new \DateTimeImmutable());
+            $post->setPublishedAt(null);
 
             $doctrine->getManager()->persist($post);
             $doctrine->getManager()->flush();
@@ -79,5 +84,14 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
         return $this->render('admin/createpost.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/admin/posts/{id}/publish', methods:['get'])]
+    public function postsPublish(ManagerRegistry $doctrine, $id): Response{
+        $postRepository = $doctrine->getRepository(Post::class);;
+        $post = $postRepository->find($id);
+        $post->setPublishedAt(new \DateTimeImmutable());
+        $doctrine->getManager()->flush();
+        return $this->redirectToRoute('app_admin_adminposts_posts');
     }
 }
