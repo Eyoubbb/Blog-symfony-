@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,7 +17,13 @@ class HomeController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstract
      * @author Jérémy
      */
     #[Route('/', methods:['get'])]
-    public function home(): Response{
-        return $this->render('base.html.twig');
+    public function home(ManagerRegistry $doctrine): Response{
+            $postRepository = $doctrine->getRepository(Post::class);
+
+            $posts = $postRepository->findNotPublished(5);
+
+            return $this->render('home.html.twig', [
+                'posts' => $posts
+            ]);
     }
 }
