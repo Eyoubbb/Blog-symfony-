@@ -34,18 +34,6 @@ class Category
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Post>
      */
@@ -70,6 +58,15 @@ class Category
         return $this;
     }
 
+    /**
+     * Génère le code HTML d'une catégorie
+     * @return string
+     */
+    public function generateHTMLTag(): string
+    {
+        return '<span class="text-xs rounded-xl px-4 py-1 uppercase text-white font-semibold" style="background-color:' . $this->getColor() . '">' . $this->getName() . '</span>';
+    }
+
     public function getColor(): ?string
     {
         return $this->color;
@@ -82,8 +79,15 @@ class Category
         return $this;
     }
 
-    public function generateHTMLTag(): string
+    public function getName(): ?string
     {
-        return '<span class="text-xs rounded-xl px-4 py-1 uppercase text-white font-semibold" style="background-color:'.$this->getColor().'">'.$this->getName().'</span>';
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }

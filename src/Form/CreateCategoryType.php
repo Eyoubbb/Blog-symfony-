@@ -17,8 +17,7 @@ class CreateCategoryType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('color', ColorType::class)
-            ->add('submit', SubmitType::class)
-        ;
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
