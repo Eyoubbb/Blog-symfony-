@@ -2,6 +2,7 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use App\Form\CreatePostType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -71,6 +72,7 @@ class AdminPostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Ab
             $slugger = new AsciiSlugger();
 
             $post = $form->getData();
+
             $post->setSlug($slugger->slug($post->getTitle()));
             $post->setCreatedAt(new \DateTimeImmutable());
             $post->setUpdatedAt(new \DateTimeImmutable());

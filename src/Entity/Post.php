@@ -37,7 +37,7 @@ class Post
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'posts')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'posts')]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
