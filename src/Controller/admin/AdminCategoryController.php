@@ -2,6 +2,8 @@
 
 namespace App\Controller\admin;
 
+use App\Entity\Category;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,8 +15,12 @@ class AdminCategoryController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @author Jérémy
      */
     #[Route('/admin/categories', methods:['get'])]
-    public function categories(): Response{
-        return $this->render('base.html.twig');
+    public function categories(ManagerRegistry $doctrine): Response{
+        $categoriesRepository = $doctrine->getRepository(Category::class);
+        $categories = $categoriesRepository->findBy([], ['id' => 'DESC'], 20, 0);
+        return $this->render('admin/categories/categories.html.twig', [
+            'categories' => $categories
+        ]);
     }
 
     /**
