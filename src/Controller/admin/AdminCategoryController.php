@@ -3,7 +3,9 @@
 namespace App\Controller\admin;
 
 use App\Entity\Category;
+use App\Form\CreateCategoryType;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,9 +30,23 @@ class AdminCategoryController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/categories/create', methods:['get'])]
-    public function categoriesCreate(): Response{
-        return $this->render('base.html.twig');
+    #[Route('/admin/categories/create', methods:['get', 'post'])]
+    public function categoriesCreate(Request $request, ManagerRegistry $doctrine): Response{
+        $category = new Category();
+
+        $form = $this->createForm(CreateCategoryType::class, $category);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category = $form->getData();
+            $doctrine->getManager()->persist($category);
+            $doctrine->getManager()->flush();
+            return $this->redirectToRoute('app_admin_admincategory_categories');
+        }
+
+        return $this->render('admin/categories/createcategory.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
