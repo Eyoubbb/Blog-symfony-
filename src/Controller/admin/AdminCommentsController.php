@@ -2,10 +2,11 @@
 
 namespace App\Controller\admin;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminCommentsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class AdminCommentsController extends AbstractController
 {
     /**
      * Controlleur pour afficher la liste des commentaires. 20 elements par page
@@ -13,8 +14,9 @@ class AdminCommentsController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/comments', methods:['get'])]
-    public function comments(): Response{
+    #[Route('/admin/comments', methods: ['get'])]
+    public function comments(): Response
+    {
         return $this->render('base.html.twig');
     }
 
@@ -23,8 +25,9 @@ class AdminCommentsController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/comments/{id}/delete', methods:['get'])]
-    public function commentsDelete($id): Response{
+    #[Route('/admin/comments/{id}/delete', methods: ['get'])]
+    public function commentsDelete($id): Response
+    {
         return $this->render('base.html.twig');
     }
 
@@ -33,8 +36,9 @@ class AdminCommentsController extends \Symfony\Bundle\FrameworkBundle\Controller
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/comments/{id}/validate', methods:['get'])]
-    public function commentsValidate($id): Response{
+    #[Route('/admin/comments/{id}/validate', methods: ['get'])]
+    public function commentsValidate($id): Response
+    {
         return $this->render('base.html.twig');
     }
 }

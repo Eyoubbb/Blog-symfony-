@@ -2,18 +2,20 @@
 
 namespace App\Controller\user;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PostsController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+class PostsController extends AbstractController
 {
     /**
      * Controlleur pour la page des posts en mode utilisateur: les posts sont triés par date de publication et on voit 20 posts par page
      * @return Response
      * @author Jérémy
      */
-    #[Route('/posts', methods:['get'])]
-    public function posts(): Response{
+    #[Route('/posts', methods: ['get'])]
+    public function posts(): Response
+    {
         return $this->render('base.html.twig');
     }
 
@@ -22,8 +24,9 @@ class PostsController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstrac
      * @return Response
      * @author Jérémy
      */
-    #[Route('/posts/{id}', methods:['get'])]
-    public function postsId($id): Response{
+    #[Route('/posts/{id}', methods: ['get'])]
+    public function postsId($id): Response
+    {
         return $this->render('base.html.twig');
     }
 }

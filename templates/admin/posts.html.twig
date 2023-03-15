@@ -51,7 +51,7 @@
                             {% endif %}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Y aller</a>
+                            <a href="/admin/posts/{{ post.slug }}/edit" class="font-medium text-blue-500 hover:underline">Y aller</a>
                             <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
                             {% if post.publishedAt is null %}
                                 <a href="/admin/posts/{{ post.id }}/publish" class="font-medium text-blue-500 hover:underline">Publier</a>
