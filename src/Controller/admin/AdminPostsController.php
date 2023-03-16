@@ -3,6 +3,7 @@
 namespace App\Controller\admin;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\CreatePostType;
 use DateTimeImmutable;
@@ -59,6 +60,13 @@ class AdminPostsController extends AbstractController
         //récupération du post à supprimer
         $postRepository = $doctrine->getRepository(Post::class);
         $post = $postRepository->find($slug);
+
+        //suppression de tous les commentaires
+        $commentRepository = $doctrine->getRepository(Comment::class);
+        $comments = $commentRepository->findBy(['post' => $post]);
+        foreach($comments as $comment){
+            $doctrine->getManager()->remove($comment);
+        }
 
         //suppression du post
         $doctrine->getManager()->remove($post);

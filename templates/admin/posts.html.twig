@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
                 {% for post in posts %}
-                    <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+                    <tr onclick="window.location = '/posts/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
                             {{post.title}}
                         </th>
@@ -51,7 +51,6 @@
                             {% endif %}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="/admin/posts/{{ post.slug }}/edit" class="font-medium text-blue-500 hover:underline">Y aller</a>
                             <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
                             {% if post.publishedAt is null %}
                                 <a href="/admin/posts/{{ post.id }}/publish" class="font-medium text-blue-500 hover:underline">Publier</a>
