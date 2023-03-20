@@ -1,67 +1,59 @@
 {% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-    <div>
-        <br>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-400">
-                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Titre
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Categories
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Date de création
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Date de modification
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Date de publication
-                    </th>
-                    <th scope="col" class="px-6 py-3 max-w-10">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for post in posts %}
-                    <tr onclick="window.location = '/posts/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
-                            {{post.title}}
-                        </th>
-                        <td class="px-6 py-4">
-                            {%for category in post.categories %}
-                                {{ category.generateHTMLTag()|raw }}
-                            {% endfor %}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ post.createdAt|date('d/m/Y \\à G\\hi') }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ post.updatedAt|date('d/m/Y \\à G\\hi') }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {% if post.publishedAt is not null %}
-                            {{ post.publishedAt|date('d/m/Y \\à G\\hi') }}
-                            {% else %}
-                                <p>Non publié</p>
-                            {% endif %}
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
-                            {% if post.publishedAt is null %}
-                                <a href="/admin/posts/{{ post.id }}/publish" class="font-medium text-blue-500 hover:underline">Publier</a>
-                            {% endif %}
-                            <a href="/admin/posts/{{ post.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <a href="/admin/posts/create">Créer un nouveau post</a>
+  <div class="container mx-auto px-4 py-8">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm rounded-md overflow-hidden">
+        <thead class="bg-gray-700 text-white">
+          <tr>
+            <th class="px-6 py-3 text-left">Titre</th>
+            <th class="px-6 py-3 text-left">Categories</th>
+            <th class="px-6 py-3 text-left">Date de création</th>
+            <th class="px-6 py-3 text-left">Date de modification</th>
+            <th class="px-6 py-3 text-left">Date de publication</th>
+            <th class="px-6 py-3 text-right"><span class="sr-only">Edit</span></th>
+          </tr>
+        </thead>
+        <tbody class="bg-gray-800 text-gray-300 divide-y divide-gray-700">
+          {% for post in posts %}
+          <tr
+            onclick="window.location = '/posts/{{ post.slug }}'"
+            class="hover:bg-gray-700 cursor-pointer"
+          >
+            <td class="px-6 py-4 whitespace-nowrap">{{ post.title }}</td>
+            <td class="px-6 py-4">
+              {% for category in post.categories %}
+              {{ category.generateHTMLTag()|raw }}
+              {% endfor %}
+            </td>
+            <td class="px-6 py-4">{{ post.createdAt|date('d/m/Y \\à G\\hi') }}</td>
+            <td class="px-6 py-4">{{ post.updatedAt|date('d/m/Y \\à G\\hi') }}</td>
+            <td class="px-6 py-4">
+              {% if post.publishedAt is not null %}
+              {{ post.publishedAt|date('d/m/Y \\à G\\hi') }}
+              {% else %}
+              <p>Non publié</p>
+              {% endif %}
+            </td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="text-blue-500 hover:text-blue-300 font-medium mr-4">Modifier</a>
+              {% if post.publishedAt is null %}
+              <a href="/admin/posts/{{ post.id }}/publish" class="text-green-500 hover:text-green-300 font-medium mr-4">Publier</a>
+              {% endif %}
+              <a href="/admin/posts/{{ post.id }}/delete" class="text-red-500 hover:text-red-300 font-medium">Supprimer</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+    <a href="/admin/posts/create" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6 block w-64 mx-auto text-center">
+      Créer un nouveau post
+    </a>
+  </div>
 {% endblock %}

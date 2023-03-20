@@ -1,41 +1,28 @@
 {% extends 'base.html.twig' %}
-{% block body %}
-    <div>
-        <br>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left text-gray-400">
-                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Nom
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Nombre de posts
-                    </th>
-                    <th scope="col" class="px-6 py-3 max-w-10">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for category in categories %}
-                    <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
-                            {{ category.generateHTMLTag()|raw }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ category.posts|length }}
-                        </td>
 
-                        <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
-                            <a href="/admin/categories/{{ category.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <a href="/admin/categories/create">Créer une nouvelle catégorie</a>
-    </div>
+{% block body %}
+<div class="p-8 flex flex-col items-center justify-center h-screen">
+  <table class="w-full text-sm text-left rounded-lg overflow-hidden">
+    <thead class="bg-gray-800 text-white">
+      <tr>
+        <th class="px-6 py-3 text-left">Nom</th>
+        <th class="px-6 py-3 text-left">Nombre de posts</th>
+        <th class="px-6 py-3 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="bg-gray-100 text-gray-900">
+      {% for category in categories %}
+      <tr class="hover:bg-gray-200">
+        <td class="px-6 py-4 whitespace-nowrap">{{ category.generateHTMLTag()|raw }}</td>
+        <td class="px-6 py-4">{{ category.posts|length }}</td>
+        <td class="px-6 py-4 text-right">
+          <a href="#" class="text-blue-500 hover:text-blue-700 font-medium mr-4">Modifier</a>
+          <a href="/admin/categories/{{ category.id }}/delete" class="text-red-500 hover:text-red-700 font-medium">Supprimer</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="/admin/categories/create" class="mt-8 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-700">Créer une nouvelle catégorie</a>
+</div>
 {% endblock %}

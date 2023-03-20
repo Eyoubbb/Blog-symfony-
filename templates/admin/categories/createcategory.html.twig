@@ -1,5 +1,36 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'tailwind_2_layout.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    input[type="color"] {
+      width: 1.5rem;
+      height: 1.5rem;
+      padding: 0;
+      background: none;
+      border: none;
+    }
+
+    input[type="text"] {
+      border: 1px solid #CBD5E0;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
-    {% form_theme form 'tailwind_2_layout.html.twig' %}
-    {{ form(form) }}
+  <div class="p-8 flex flex-col items-center justify-center h-screen">
+    <form class="w-full max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      <div class="flex items-center justify-end mt-4">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+          Envoyer
+        </button>
+      </div>
+      {{ form_end(form) }}
+      </form>
+  </div>
 {% endblock %}
