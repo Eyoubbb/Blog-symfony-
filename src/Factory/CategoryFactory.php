@@ -48,7 +48,7 @@ final class CategoryFactory extends ModelFactory
     {
         return [
             'color' => self::faker()->text(7),
-            'name' => self::faker()->text(255),
+            'name' => self::faker()->text(10),
         ];
     }
 
