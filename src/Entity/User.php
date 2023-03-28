@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    private string $plainPassword;
+    private ?string $plainPassword;
 
     public function getId(): ?int
     {
@@ -108,9 +108,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getPlainPassword(): string
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }

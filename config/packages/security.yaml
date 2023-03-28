@@ -16,7 +16,20 @@ security:
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            entry_point: App\Security\LoginAuthenticator
+            logout: true
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                domain: ~ # Defaults to the current domain from $_SERVER
+                secure: auto # Defaults to the current scheme from $_SERVER
+                httponly: true
+                samesite: lax # Defaults to "lax". Set to "null" to disable
+                signature_properties: [password, username]
+            # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -27,7 +40,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

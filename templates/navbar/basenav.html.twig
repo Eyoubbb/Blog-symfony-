@@ -6,10 +6,10 @@
         </a>
         <div class="flex items-center">
             {% if app.user %}
-                <button class="group flex items-center p-2 justify-items-center bg-white hover:ring-black rounded-xl hover:bg-blue-400"><a href="#" class="text-sm font-medium text-black group-hover:text-white ">Déconnexion</a></button>
+                <button class="group flex items-center p-2 justify-items-center bg-white hover:ring-black rounded-xl hover:bg-blue-400"><a href="/logout" class="text-sm font-medium text-black group-hover:text-white ">Déconnexion</a></button>
             {% else %}
                 <button class="group flex items-center mr-4 p-2 justify-items-center bg-white hover:ring-black rounded-xl hover:bg-blue-400"><a href="/login" class="text-sm font-medium text-black group-hover:text-white ">Connexion</a></button>
-                <button class="group flex items-center p-2 justify-items-center bg-blue-500 hover:ring-black rounded-xl hover:bg-blue-900"><a href="#" class="text-sm font-medium text-white group-hover:text-white ">Inscription</a></button>
+                <button class="group flex items-center p-2 justify-items-center bg-blue-500 hover:ring-black rounded-xl hover:bg-blue-900"><a href="/signup" class="text-sm font-medium text-white group-hover:text-white ">Inscription</a></button>
             {% endif %}
         </div>
     </div>
