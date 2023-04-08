@@ -46,7 +46,7 @@ class AdminCategoryController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/categories/create', methods: ['get', 'post'])]
+    #[Route('/admin/create/categories', methods: ['get', 'post'])]
     public function categoriesCreate(Request $request, ManagerRegistry $doctrine): Response
     {
         //création de la catégorie
