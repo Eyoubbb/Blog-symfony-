@@ -1,36 +1,142 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="border border-gray-700 border-8">
-        <h1 class="border-b border-gray-700">{{ post.title }}</h1>
-        <div class="border-b border-gray-700">
-            {% for category in post.categories %}
-                {{ category.generateHTMLTag|raw }}
-            {% endfor %}
-        </div>
-        <div class="border-b border-gray-700">
-            <p>
-                {{ post.description }}
-            </p>
-        </div>
-        <div>
-            <p>
-                {{ post.content }}
-            </p>
-        </div>
-    </div>
+    <div class="px-20">
+        <div class="mt-10 p-6  bg-gray-700 rounded-3xl shadow-lg">
+            <div class="border-b border-gray-500 pb-3">
+                <h1 class="text-white font-extrabold text-3xl">{{ post.title }}</h1>
+                <div>
+                    {% if post.publishedAt is not null %}
+                        {% set difference = date(post.publishedAt|date()).diff(date("now"|date())) %}
+                        {% set unit = "jours" %}
+                        {% set left = difference.d %}
+                        {% if difference.days <= 0%}
+                            {% if difference.h <= 0 %}
+                                {% if difference.i <= 0 %}
+                                    {% set left = difference.s %}
+                                    {% set unit = "secondes" %}
+                                {% else %}
+                                    {% set left = difference.i %}
+                                    {% set unit = "minutes" %}
+                                {% endif %}
+                            {% else %}
+                                {% set left = difference.h %}
+                                {% set unit = "heures" %}
+                            {% endif %}
+                        {% else %}
+                            {% if difference.days == 1 %}
+                                {% set left = difference.days|round %}
+                                {% set unit = "jour" %}
+                            {% else %}
+                                {% if difference.days > 14 %}
+                                    {% if difference.days > 30 %}
+                                        {% if difference.days > 365 %}
+                                            {% if difference.days < 730 %}
+                                                {% set left = 1 %}
+                                                {% set unit = "an" %}
+                                            {% else %}
+                                                {% set left = (difference.days/365)|round(0, "floor") %}
+                                                {% set unit = "ans" %}
+                                            {% endif %}
+                                        {% else %}
+                                            {% set left = (difference.days/30)|round(0, "floor") %}
+                                            {% set unit = "mois" %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% set left = (difference.days/7)|round(0, "floor") %}
+                                        {% set unit = "semaines" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set left = difference.days %}
+                                    {% set unit = "jours" %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
 
-    {% for comment in post.comments %}
-        <div class="border border-gray-700 border-8">
-            <h1 class="border-b border-gray-700">{{ comment.username }}</h1>
-            <div class="border-b border-gray-700">
-                <p>
-                    {{ comment.content }}
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                            <svg aria-hidden="true" class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                                </path>
+                        </svg>
+                        Il y a {{ left }} {{ unit }}
+                        </span>
+                    {% else %}
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                            <svg aria-hidden="true" class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                                </path>
+                        </svg>
+                        Non publié
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="mt-3">
+                    {% for category in post.categories %}
+                        {{ category.generateHTMLTag|raw }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="py-3 border-b border-gray-500">
+                <p class="text-gray-300 font-semibold text-xl">
+                    {{ post.description }}
+                </p>
+            </div>
+            <div class="mt-3 bg-gray-600 rounded-3xl px-4 py-2">
+                <p class="text-white">
+                    {{ post.content }}
                 </p>
             </div>
         </div>
-    {% endfor %}
 
-    {% form_theme form 'tailwind_2_layout.html.twig' %}
-    {{ form(form) }}
+        <section class="bg-gray-900 py-8 lg:py-16">
+            <div class="max-w-2xl mx-auto px-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg lg:text-2xl font-bold text-white">Discussion ({{ post.comments.count }})</h2>
+                </div>
+                <div class="mb-6">
+                    {{ form_start(form) }}
+                    <div class="py-2 px-4 mb-4 rounded-lg rounded-t-lg border bg-gray-800 border-gray-700">
+                        <label for="comment" class="sr-only">Your comment</label>
+                        {{ form_widget(form.content, {'attr': {'class': 'px-0 w-full text-s border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400 bg-gray-800'}}) }}
 
+                    </div>
+                    {{ form_widget(form.submit, {'attr': {'class': 'inline-flex py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-900 hover:bg-primary-800'}}) }}
+
+                    {{ form_end(form) }}
+                </div>
+                {{ knp_pagination_render(comments) }}
+                {% for comment in comments %}
+                    <article class="p-6 mb-6 text-base rounded-lg bg-gray-900">
+                        <footer class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <p class="inline-flex items-center mr-3 text-sm text-white"><img
+                                            class="mr-2 w-6 h-6 rounded-full"
+                                            src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                                            alt="{{ comment.username }}">{{ comment.username }}</p>
+                                <p class="text-sm text-gray-400"><time pubdate datetime="{{ comment.createdAt.format("Y-m-d H:i:s") }}"
+                                                                                          title="{{ comment.createdAt.format("Y-m-d H:i:s") }}">
+                                    {{ comment.createdAt.format("d/m/Y") }} à {{ comment.createdAt.format("H") }}h{{ comment.createdAt.format("i") }}</time></p>
+                            </div>
+                            {% if not comment.valid %}
+                            <div class="inline-flex justify-end ">
+                                <a href="/admin/comments/validate/{{ comment.id }}?post={{ post.slug }}&page={{ comments.currentPageNumber }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="text-lime-500 w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                </a>
+                                <a href="/admin/comments/delete/{{ comment.id }}?post={{ post.slug }}&page={{ comments.currentPageNumber }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-500 w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </a>
+                            </div>
+                            {% endif %}
+
+                        </footer>
+                        <p class="text-gray-400">{{ comment.content }}</p>
+                    </article>
+                {% endfor %}
+                {{ knp_pagination_render(comments) }}
+            </div>
+        </section>
+    </div>
 {% endblock %}

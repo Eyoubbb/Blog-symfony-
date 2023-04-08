@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\AddCommentFormType;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,26 @@ class PostsController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/posts', methods: ['get'])]
-    public function posts(): Response
+    #[Route('/posts/{page}', defaults: ['page' => 1], methods: ['get'])]
+    public function posts($page, ManagerRegistry $doctrine, PaginatorInterface $paginator): Response
     {
-        return $this->render('base.html.twig');
+        //récupération des posts
+        $postRepository = $doctrine->getRepository(Post::class);
+
+        //récupération des derniers posts publiés
+        $data = $postRepository->findAllPublished();
+
+        //pagination
+        $posts = $paginator->paginate(
+            $data,
+            $page,
+            20
+        );
+
+        //affichage de la page
+        return $this->render('user/posts.html.twig', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -29,8 +46,8 @@ class PostsController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/posts/{slug}', methods: ['get', 'post'])]
-    public function postsId(Request $request, ManagerRegistry $doctrine, $slug): Response
+    #[Route('/post/{slug}/{page}', defaults: ['page' => 1], methods: ['get', 'post'])]
+    public function postsId(Request $request, ManagerRegistry $doctrine, $slug, $page, PaginatorInterface $paginator): Response
     {
         //récupération des posts
         $postRepository = $doctrine->getRepository(Post::class);
@@ -47,15 +64,22 @@ class PostsController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setPost($post[0]);
-            $comment->setUsername("test");
+            $comment->setUsername($this->getUser()->getUserIdentifier());
             $comment->setValid(false);
             $doctrine->getManager()->persist($comment);
             $doctrine->getManager()->flush();
-            return $this->redirectToRoute('app_user_posts_postsid', ['slug' => $slug]);
+            return $this->redirectToRoute('app_user_posts_postsid', ['slug' => $slug, 'page' => $page]);
         }
+
+        $comments = $paginator->paginate(
+            $post[0]->getComments(),
+            $page,
+            15
+        );
 
         return $this->render('user/post.html.twig', [
             'post' => $post[0],
+            'comments' => $comments,
             'form' => $form->createView()
         ]);
     }

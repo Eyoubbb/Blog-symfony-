@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -46,12 +47,15 @@ final class PostFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $title = self::faker()->text(50);
+        $slugger = new AsciiSlugger();
         return [
-            'content' => self::faker()->text(255),
+            'content' => self::faker()->text(6000),
             'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'description' => self::faker()->text(255),
-            'slug' => self::faker()->text(255),
-            'title' => self::faker()->text(255),
+            'publishedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+            'description' => self::faker()->text(100),
+            'slug' => $slugger->slug($title),
+            'title' => $title,
             'updatedAt' => self::faker()->dateTime(),
         ];
     }

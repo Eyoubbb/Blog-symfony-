@@ -13,7 +13,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-gray-900">
     {% if is_granted('ROLE_ADMIN') %}
     {% include 'navbar/adminnav.html.twig' %}
     {% else %}
@@ -21,5 +21,6 @@
     {% endif %}
 
     {% block body %}{% endblock %}
+    <span class="hidden text-xs font-medium mr-2 px-2.5 py-0.5 border rounded text-black">Dummy Badge -- Hidden</span>
     </body>
 </html>

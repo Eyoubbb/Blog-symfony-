@@ -24,7 +24,7 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 6000)]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\LoginType;
+use App\Form\SignupType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -54,6 +54,20 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Get the last published posts, ordered by publishedAt, with a limit of $value
+     * @param $value
+     * @return array|null
+     */
+    public function findAllPublished(): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.publishedAt IS NOT NULL')
+            ->orderBy('p.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    public function findOneBySomeField($value): ?Post
 //    {
 //        return $this->createQueryBuilder('p')

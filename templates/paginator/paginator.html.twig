@@ -1,0 +1,42 @@
+{% if pageCount > 1 %}
+    <div class="w-full flex justify-center my-2">
+        <div class="flex items-baseline flex-row w-auto">
+            {% if first is defined and current != first %}
+                <span class="rounded-lg mx-0.5 bg-gray-400 text-black px-3 py-2 text-lg border-r border-gray-500 font-bold">
+                <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">&lt;&lt;</a>
+            </span>
+            {% endif %}
+
+            {% if previous is defined %}
+                <span class="rounded-lg mx-0.5 bg-gray-400 text-black px-3 py-2 text-lg border-r border-gray-500 font-bold">
+                <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&lt;</a>
+            </span>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <span class="rounded-lg mx-0.5 bg-gray-400 text-black px-3 py-2 text-lg border-r border-gray-500 font-bold">
+                    <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                </span>
+                {% else %}
+                    <span class="rounded-lg mx-0.5 bg-gray-600 text-white px-3 py-2 text-lg border-r border-gray-800 font-bold">{{ page }}</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if next is defined %}
+                <span class="rounded-lg mx-0.5 bg-gray-400 text-black px-3 py-2 text-lg border-r border-gray-500 font-bold">
+                <a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">&gt;</a>
+            </span>
+            {% endif %}
+
+            {% if last is defined and current != last %}
+                <span class="rounded-lg mx-0.5 bg-gray-400 text-black px-3 py-2 text-lg border-r border-gray-500 font-bold">
+                <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">&gt;&gt;</a>
+            </span>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+
+

@@ -2,12 +2,12 @@
 
 namespace App\Controller\admin;
 
-use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\CreatePostType;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +22,20 @@ class AdminPostsController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/posts', methods: ['get'])]
-    public function posts(ManagerRegistry $doctrine): Response
+    #[Route('/admin/posts/{page}', defaults: ['page' => 1], methods: ['get'])]
+    public function posts(Request $request, ManagerRegistry $doctrine, PaginatorInterface $paginator, $page): Response
     {
         //récupération des posts
         $postRepository = $doctrine->getRepository(Post::class);
-        $posts = $postRepository->findBy([], ['createdAt' => 'DESC'], 20, 0);
+        $data = $postRepository->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery();
 
+        $posts = $paginator->paginate(
+            $data,
+            $page,
+            20
+        );
         //affichage de la page
         return $this->render('admin/posts.html.twig', [
             'posts' => $posts

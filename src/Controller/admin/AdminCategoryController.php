@@ -5,6 +5,7 @@ namespace App\Controller\admin;
 use App\Entity\Category;
 use App\Form\CreateCategoryType;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +19,19 @@ class AdminCategoryController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/categories', methods: ['get'])]
-    public function categories(ManagerRegistry $doctrine): Response
+    #[Route('/admin/categories/{page}', defaults: ['page' => 1], methods: ['get'])]
+    public function categories(ManagerRegistry $doctrine, PaginatorInterface $paginator, $page): Response
     {
         //récupération des catégories
         $categoriesRepository = $doctrine->getRepository(Category::class);
-        $categories = $categoriesRepository->findBy([], ['id' => 'DESC'], 20, 0);
+        $data = $categoriesRepository->findBy([], ['id' => 'DESC']);
+
+        //pagination
+        $categories = $paginator->paginate(
+            $data,
+            $page,
+            20
+        );
 
         //affichage de la page
         return $this->render('admin/categories/categories.html.twig', [

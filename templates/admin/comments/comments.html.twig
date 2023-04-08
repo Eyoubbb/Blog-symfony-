@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div>
-        {{ knp_pagination_render(categories) }}
+        {{ knp_pagination_render(comments) }}
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-400">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Nom
+                        Auteur
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Nombre de posts
+                        Contenu
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date de création
                     </th>
                     <th scope="col" class="px-6 py-3 max-w-10">
                         <span class="sr-only">Edit</span>
@@ -18,25 +21,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for category in categories %}
+                {% for comment in comments %}
                     <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
-                            {{ category.generateHTMLTag()|raw }}
+                            {{comment.username}}
                         </th>
                         <td class="px-6 py-4">
-                            {{ category.posts|length }}
+                            {{ comment.content }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ comment.createdAt|date('d/m/Y \\à G\\hi') }}
                         </td>
 
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
-                            <a href="/admin/categories/{{ category.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
+                            <a href="/admin/comments/validate/{{ comment.id }}?admin=true&page={{ comments.currentPageNumber }}" class="font-medium text-blue-500 hover:underline">Valider</a>
+                            <a href="/admin/comments/delete/{{ comment.id }}?admin=true&page={{ comments.currentPageNumber }}" class="font-medium text-blue-500 hover:underline">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        {{ knp_pagination_render(categories) }}
-        <a href="/admin/categories/create">Créer une nouvelle catégorie</a>
+        {{ knp_pagination_render(comments) }}
+        <a href="/admin/posts/create">Créer un nouveau post</a>
     </div>
 {% endblock %}

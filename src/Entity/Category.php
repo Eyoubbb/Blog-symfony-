@@ -64,7 +64,7 @@ class Category
      */
     public function generateHTMLTag(): string
     {
-        return '<span class="text-xs rounded-xl px-4 py-1 uppercase text-white font-semibold" style="background-color:' . $this->getColor() . '">' . $this->getName() . '</span>';
+        return '<span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded text-black" style="background-color: ' . $this->getColor() .'">' . $this->getName() . '</span>';
     }
 
     public function getColor(): ?string

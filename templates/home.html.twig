@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                 {% for post in posts %}
-                    <tr  onclick="window.location = '/posts/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+                    <tr  onclick="window.location = '/post/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
                             {{post.title}}
                         </th>
