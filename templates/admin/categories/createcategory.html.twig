@@ -1,6 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% form_theme form 'tailwind_2_layout.html.twig' %}
-    {{ form(form) }}
+
+ <div class="max-w-lg mx-auto mt-3">
+    {{ form_start(form) }}
+    <div class="bg-gray-100 py-2 px-4 mb-2 rounded-md">
+      {{ form_row(form.name) }}
+    </div>
+    <div class="bg-gray-100 py-2 px-4 mb-2 rounded-md">
+      {{ form_row(form.color) }}
+    </div>
+    <div class="text-center">
+      {{ form_row(form.submit, {'attr': {'class': 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}}) }}
+    </div>
+    {{ form_end(form) }}
+  </div>
+
     
 {% endblock %}
