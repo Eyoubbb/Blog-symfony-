@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div>
+    <div class="mx-auto max-w-7xl">
         {{ knp_pagination_render(categories) }}
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-400">
@@ -20,7 +20,7 @@
                 <tbody>
                 {% for category in categories %}
                     <tr class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white cursor-pointer">
                             {{ category.generateHTMLTag()|raw }}
                         </th>
                         <td class="px-6 py-4">
@@ -37,6 +37,8 @@
             </table>
         </div>
         {{ knp_pagination_render(categories) }}
-        <a href="/admin/create/categories">Créer une nouvelle catégorie</a>
+        <div class="flex justify-end mt-4">
+            <a href="/admin/create/categories" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded mb-8 focus:outline-none focus:shadow-outline">Créer une nouvelle catégorie</a>
+        </div>
     </div>
 {% endblock %}
