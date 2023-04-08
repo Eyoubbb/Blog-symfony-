@@ -90,7 +90,7 @@ class AdminPostsController extends AbstractController
      * @return Response
      * @author Jérémy
      */
-    #[Route('/admin/posts/create', methods: ['get', 'post'])]
+    #[Route('/admin/create/post', methods: ['get', 'post'])]
     public function postsCreate(Request $request, ManagerRegistry $doctrine): Response
     {
         //création du nouveau post
