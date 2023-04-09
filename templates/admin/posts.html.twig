@@ -29,22 +29,22 @@
                 </thead>
                 <tbody>
                     {% for post in posts %}
-                        <tr onclick="window.location = '/post/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
-                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
+                        <tr onclick="window.location = '/post/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600 ">
+                            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white cursor-pointer ">
                                 {{post.title}}
                             </th>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 cursor-pointer">
                                 {%for category in post.categories %}
                                     {{ category.generateHTMLTag()|raw }}
                                 {% endfor %}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 cursor-pointer">
                                 {{ post.createdAt|date('d/m/Y \\à G\\hi') }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 cursor-pointer">
                                 {{ post.updatedAt|date('d/m/Y \\à G\\hi') }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 cursor-pointer ">
                                 {% if post.publishedAt is not null %}
                                     {{ post.publishedAt|date('d/m/Y \\à G\\hi') }}
                                 {% else %}
