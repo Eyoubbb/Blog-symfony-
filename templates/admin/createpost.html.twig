@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="px-4 py-8">
+      <h1 class="text-3xl font-bold mb-2">Créer un nouveau post</h1>
+      <form>
+        <div class="mb-4">
+          <label class="block text-gray-300 font-bold mb-2" for="title">
+              Titre
+          </label>
+          <input class="appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:bg-gray-700 focus:border-gray-500" id="title" type="text" placeholder="Titre du post">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-300 font-bold mb-2" for="body">
+              Corps du post
+          </label>
+          <textarea class="appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:bg-gray-700 focus:border-gray-500" id="body" type="text" placeholder="Corps du post"></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-300 font-bold mb-2" for="category">
+              Catégorie
+          </label>
+          <select class="appearance-none  text-gray-400 border border-gray-700 rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:bg-gray-700 focus:border-gray-500" id="category">
+            <option value="1">Catégorie 1</option>
+            <option value="2">Catégorie 2</option>
+            <option value="3">Catégorie 3</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-300 font-bold mb-2" for="published">
+              Publié
+          </label>
+          <input class="mr-2 leading-tight" type="radio" name="published" value="yes">
+          <label class="inline-block text-gray-200 mr-6">
+            Oui
+          </label>
+          <input class="mr-2 leading-tight" type="radio" name="published" value="no">
+          <label class="inline-block text-gray-200">
+            Non
+          </label>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+            Créer le post
+        </button>
+      </form>
+    </div>
+{% endblock %}

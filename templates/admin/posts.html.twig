@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <br>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-400">
+                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Titre
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Categories
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date de création
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date de modification
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date de publication
+                    </th>
+                    <th scope="col" class="px-6 py-3 max-w-10">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in posts %}
+                    <tr onclick="window.location = '/posts/{{ post.slug }}'" class="border-b bg-gray-800 border-gray-700 hover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap text-white">
+                            {{ post.title }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {% for category in post.categories %}
+                                {{ category.generateHTMLTag()|raw }}
+                            {% endfor %}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ post.createdAt|date('d/m/Y \\à G\\hi') }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ post.updatedAt|date('d/m/Y \\à G\\hi') }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% if post.publishedAt is not null %}
+                                {{ post.publishedAt|date('d/m/Y \\à G\\hi') }}
+                            {% else %}
+                                <p>Non publié</p>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="#" class="font-medium text-blue-500 hover:underline">Modifier</a>
+                            {% if post.publishedAt is null %}
+                                <a href="/admin/posts/{{ post.id }}/publish" class="font-medium text-blue-500 hover:underline">Publier</a>
+                            {% endif %}
+                            <a href="/admin/posts/{{ post.id }}/delete" class="font-medium text-blue-500 hover:underline">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="flex justify-center mt-4">
+            <a href="/admin/posts/create" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Créer un nouveau post
+            </a>
+        </div>
+    </div>
+{% endblock %}

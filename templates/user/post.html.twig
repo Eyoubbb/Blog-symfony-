@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="border border-gray-700 border-8">
+        <h1 class="border-b border-gray-700">{{ post.title }}</h1>
+        <div class="border-b border-gray-700">
+            {% for category in post.categories %}
+                {{ category.generateHTMLTag|raw }}
+            {% endfor %}
+        </div>
+        <div class="border-b border-gray-700">
+            <p>
+                {{ post.description }}
+            </p>
+        </div>
+        <div>
+            <p>
+                {{ post.content }}
+            </p>
+        </div>
+    </div>
+
+    {% for comment in post.comments %}
+        <div class="border border-gray-700 border-8">
+            <h1 class="border-b border-gray-700">{{ comment.username }}</h1>
+            <div class="border-b border-gray-700">
+                <p>
+                    {{ comment.content }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% form_theme form 'tailwind_2_layout.html.twig' %}
+    {{ form(form) }}
+
+{% endblock %}
